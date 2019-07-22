@@ -5,6 +5,10 @@ import random
 
 type
   Vector* = ref seq[float]
+  Matrix* = ref seq[Vector]
+
+  FtoFFunction = proc(x:float):float
+  VtoVFunction = proc(v:Vector):Vector
 
 #Create a new Vector
 func newVector*(size:int):Vector = 
@@ -19,7 +23,7 @@ proc randomVector*(size:int,max:float=1.0,seed:int=1):Vector =
     result[idx] = rand(max)
 
 #Vector map by function of `f`
-func map*(v:Vector,f:proc (x:float):float):Vector =
+func map*(v:Vector,f:FtoFFunction):Vector =
   result = newVector(v.len)
   for idx,value in v:
     result[idx] = f(value)
@@ -94,4 +98,35 @@ func `-`*(self:Vector,right:Vector):Vector =
 
 func `-`*(self:Vector,right:float):Vector =
   self.map(proc(x:float):float = x - right)
+
+
+proc newMatrix*(widht:int,height:int):Matrix=
+  result = new seq[Vector]
+  result[] = newSeq[Vector](height)
+  for idx,value in result:
+    result[idx] = newVector(widht)
+
+proc newMatrix*(height:int):Matrix=
+  result = new seq[Vector]
+  result[] = newSeq[Vector](height)
+
+func `$`*(mat:Matrix):string=
+  result = ""
+  for i,v in mat:
+    result.add $v
+    result.add "\n"
+
+func shape*(mat:Matrix):array[2,int] =
+  let w = if mat[0] == nil:
+    0
+  else:
+    mat[0].len
+  let h = mat.len
+  result = [w,h]
+
+func map*(mat:Matrix,f:proc (v:Vector):Vector):Matrix =
+  let shape = mat.shape
+  result = newMatrix(shape[0],shape[1])
+  for idx,v in mat:
+    result[idx] = f(v)
 
