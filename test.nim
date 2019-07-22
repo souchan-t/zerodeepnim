@@ -8,7 +8,7 @@ import vector
 import activators
 
 
-let v1 = randomVector(5)
+let v1 = randomVector(5,2.0,1)
 let v2 = randomVector(5)
 echo v1
 echo v2

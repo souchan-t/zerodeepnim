@@ -7,15 +7,16 @@ type
   Vector* = ref seq[float]
 
 #Create a new Vector
-proc newVector*(size:int):Vector = 
+func newVector*(size:int):Vector = 
   result = new seq[float]
   result[] = newSeq[float](size)
 
 #Create a new random Vector
-proc randomVector*(size:int):Vector = 
+proc randomVector*(size:int,max:float=1.0,seed:int=1):Vector = 
   result = newVector(size)
+  randomize(seed)
   for idx,v in result:
-    result[idx] = rand(1.0)
+    result[idx] = rand(max)
 
 #Vector map by function of `f`
 func map*(v:Vector,f:proc (x:float):float):Vector =
@@ -23,6 +24,9 @@ func map*(v:Vector,f:proc (x:float):float):Vector =
   for idx,value in v:
     result[idx] = f(value)
 
+func foreach*(v:Vector,f:proc (index:int,x:float))=
+  for idx,value in v:
+    f(idx,value)
 
 # Average
 func average*(v:Vector):float = v.sum / float(v.len)
