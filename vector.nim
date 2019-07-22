@@ -4,35 +4,35 @@ import strformat
 import random
 
 type
-  Vector*[T] = ref seq[T]
+  Vector* = ref seq[float]
 
 #Create a new Vector
-func newVector*[T](size:int):Vector[T] = 
-  result = new seq[T]
-  result[] = newSeq[T](size)
+func newVector*(size:int):Vector = 
+  result = new seq[float]
+  result[] = newSeq[float](size)
 
 #Create a new random Vector
-proc randomVector*[T](size:int,max:T=1.0,seed:int=1):Vector[T] = 
-  result = newVector[T](size)
+proc randomVector*(size:int,max:float=1.0,seed:int=1):Vector = 
+  result = newVector(size)
   randomize(seed)
   for idx,v in result:
     result[idx] = rand(max)
 
 #Vector map by function of `f`
-func map*[T](v:Vector[T],f:proc (x:T):T):Vector[T] =
-  result = newVector[T](v.len)
+func map*(v:Vector,f:proc (x:float):float):Vector =
+  result = newVector(v.len)
   for idx,value in v:
     result[idx] = f(value)
 
-func foreach*[T](v:Vector[T],f:proc (index:int,x:T))=
+func foreach*(v:Vector,f:proc (index:int,x:float))=
   for idx,value in v:
     f(idx,value)
 
 # Average
-func average*[T](v:Vector[T]):float= v.sum / float(v.len)
+func average*(v:Vector):float= v.sum / float(v.len)
 
 # Variance
-func variance*[T](v:Vector):float =
+func variance*(v:Vector):float =
   let ave = v.average
   v.map(proc (x:float):float = pow(x - ave,2)).sum / float(v.len)
 
