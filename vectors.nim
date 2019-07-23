@@ -50,6 +50,7 @@ func fillter*[T](v:Vector[T],cond:proc(x:T):bool):Vector[T]=
       result.add(value)
 
 
+  
 func foreach*[T](v:Vector[T],f:proc (index:int,x:T))=
   for idx,value in v:
     f(idx,value)
@@ -154,6 +155,11 @@ proc newMatrix*[T](matrix:seq[seq[T]]):Matrix[T] =
   for idx,v in result:
     result[idx] = newVector(matrix[idx])
 
+proc newMatrix*[T](vec:Vector[T]):Matrix[T]=
+  result = newMatrix[T](1)
+  for idx,v in result[0]:
+    result[0][idx] = vec[idx]
+
 func `$`*[T](mat:Matrix[T]):string=
   result = ""
   for i,v in mat:
@@ -198,6 +204,10 @@ func dot*[T](mat1:Matrix[T],mat2:Matrix[T]):Matrix[T]=
 
 func `@`*[T](mat1:Matrix[T],mat2:Matrix[T]):Matrix[T] = mat1.dot(mat2)
 
+func dot*[T](vec:Vector[T],mat:Matrix[T]):Matrix[T]=
+  newMatrix(vec).dot(mat)
+  
+func `@`*[T](vec:Vector[T],mat:Matrix[T]):Matrix[T]= vec.dot(mat)
 
 # ------------------------------------------
 # test
@@ -205,10 +215,11 @@ func `@`*[T](mat1:Matrix[T],mat2:Matrix[T]):Matrix[T] = mat1.dot(mat2)
 when isMainModule:
   #let m1 = newMatrix(@[@[1.0,2.0,3.0,4.0],@[4.0,5.0,6.0,7.0]])
   #let m2 = newMatrix(@[@[1.0,2.0],@[3.0,4.0],@[4.0,5.0],@[6.0,7.0]])
-  let m1 = newMatrix(@[@[1,2,3,4],@[4,5,6,7]])
-  let m2 = newMatrix(@[@[1,2],@[3,4],@[4,5],@[6,7]])
+  #let m1 = newMatrix(@[@[1,2,3,4],@[4,5,6,7]])
+  #let m2 = newMatrix(@[@[1,2],@[3,4],@[4,5],@[6,7]])
 
   let v1 = newVector([1,2,3,4,5])
-  let v2 = newVector([6,7,8])
+  let v2 = newVector([6.0,7.0,8.0])
 
-  echo m2.flatten
+  echo v2.map(proc (x:float):float = x + 1)
+

@@ -1,3 +1,4 @@
+{.experimental.}
 import math
 
 #Sigmoid function
@@ -5,7 +6,7 @@ func sigmoid*(x:float,gain:float = 1.0):float =
   1.0 / (1.0 + pow(E,-gain * x))
 
 #Curried sigmoid function
-func sigmoidCurried*(gain:float):proc (n:float):float =
+func sigmoidCurried*(gain:float):(proc (n:float):float) =
   result = proc (x:float):float =
     sigmoid(x,gain)
 

@@ -4,16 +4,13 @@ import math
 import random
 import strformat
 import functions
-import vector
+import vectors
 import activators
 
+let x = newMatrix(@[@[1.0,0.5]])
+let w1 = newMatrix(@[@[0.1,0.3,0.5],@[0.2,0.4,0.6]])
+let b1 = newVector([0.1,0.2,0.3])
 
-let v1 = randomVector(5,2.0,1)
-let v2 = randomVector(5)
-echo v1
-echo v2
-echo v1 + v2
-echo v1 * v2
+echo x.dot(w1) 
 
-echo 3.0 + v1
-echo v1 * 2.0
+
