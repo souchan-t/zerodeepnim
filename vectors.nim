@@ -211,6 +211,10 @@ func flatten*[T](mat:Matrix[T]):Vector[T]=
     for j,c in v:
       result[idx*shape[1] + j] = c
 
+func sum[T](mat:Matrix[T]):T = mat.flatten.sum
+func min[T](mat:Matrix[T]):T = mat.flatten.min
+func max[T](mat:Matrix[T]):T = mat.flatten.max
+
 func dot*[T](mat1:Matrix[T],mat2:Matrix[T]):Matrix[T]=
   let t_mat2 = mat2.transpose
   result = newMatrix[T](mat1.shape()[0],mat2.shape()[1])
@@ -245,6 +249,7 @@ func dot*[T](vec:Vector[T],mat:Matrix[T]):Matrix[T]=
   
 func `@`*[T](vec:Vector[T],mat:Matrix[T]):Matrix[T]= vec.dot(mat)
 
+
 # ------------------------------------------
 # test
 # ------------------------------------------
@@ -262,3 +267,7 @@ when isMainModule:
   echo m1.map(proc (x:Vector[int]):Vector[float] =
     x.map(proc (y:int):float = float(y*2))
     )
+
+  echo m1.max
+  echo m1.sum
+  echo m1.min
